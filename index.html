@@ -96,7 +96,6 @@
             </div>
             
             <div class="flex flex-wrap items-center gap-3">
-                <!-- Language Selector -->
                 <div class="flex bg-slate-100 p-1 rounded-xl mr-2">
                     <button onclick="setLanguage('sv')" id="lang-sv" class="lang-btn px-3 py-1 text-[10px] font-bold rounded-lg transition-all border border-transparent">SV</button>
                     <button onclick="setLanguage('en')" id="lang-en" class="lang-btn px-3 py-1 text-[10px] font-bold rounded-lg transition-all border border-transparent">EN</button>
@@ -162,7 +161,7 @@
         };
         // ==========================================
 
-        const STORAGE_KEY = 'avail_storage_v11_fixed';
+        const STORAGE_KEY = 'avail_storage_v12_final';
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'calendar-prod';
         
         const translations = {
@@ -173,8 +172,11 @@
                 clearConfirm: "Vill du rensa alla dina markeringar?", storageLocal: "Lokal lagring",
                 storageCloud: "Molnsynkad", btnImg: "Bild", btnPdf: "PDF", clearAll: "Rensa allt",
                 legendAvail: "Tillgänglig", legendBusy: "Upptagen", updated: "Uppdaterad",
-                h_lfredag: "Långfredag", h_pdagen: "Påskdagen", h_apask: "Annandag påsk",
-                h_valborg: "Valborg", h_fmaj: "Första maj", h_kristi: "Kristi himmelsfärd",
+                h_nyar: "Nyårsdagen", h_tretton: "Trettondedag jul", h_lfredag: "Långfredag", 
+                h_pdagen: "Påskdagen", h_apask: "Annandag påsk", h_valborg: "Valborg", 
+                h_fmaj: "Första maj", h_kristi: "Kristi himmelsfärd", h_national: "Nationaldagen",
+                h_midsommara: "Midsommarafton", h_midsommar: "Midsommardagen", h_allahelgon: "Alla helgons dag",
+                h_jula: "Julafton", h_juldagen: "Juldagen", h_ajul: "Annandag jul", h_nyara: "Nyårsafton",
                 days: ["Sön", "Mån", "Tis", "Ons", "Tor", "Fre", "Lör"],
                 months: ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"]
             },
@@ -185,18 +187,28 @@
                 clearConfirm: "Do you want to clear all your markings?", storageLocal: "Local storage",
                 storageCloud: "Cloud synced", btnImg: "Image", btnPdf: "PDF", clearAll: "Clear all",
                 legendAvail: "Available", legendBusy: "Busy", updated: "Updated",
-                h_lfredag: "Good Friday", h_pdagen: "Easter Sunday", h_apask: "Easter Monday",
-                h_valborg: "Walpurgis", h_fmaj: "May Day", h_kristi: "Ascension Day",
+                h_nyar: "New Year's Day", h_tretton: "Epiphany", h_lfredag: "Good Friday", 
+                h_pdagen: "Easter Sunday", h_apask: "Easter Monday", h_valborg: "Walpurgis", 
+                h_fmaj: "May Day", h_kristi: "Ascension Day", h_national: "National Day",
+                h_midsommara: "Midsummer Eve", h_midsommar: "Midsummer Day", h_allahelgon: "All Saints' Day",
+                h_jula: "Christmas Eve", h_juldagen: "Christmas Day", h_ajul: "Boxing Day", h_nyara: "New Year's Eve",
                 days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
                 months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
             }
         };
 
         const holidays = {
-            "2026-04-03": "h_lfredag", "2026-04-05": "h_pdagen", "2026-04-06": "h_apask",
-            "2026-04-30": "h_valborg", "2026-05-01": "h_fmaj", "2026-05-14": "h_kristi"
+            "2026-01-01": "h_nyar", "2026-01-06": "h_tretton", "2026-04-03": "h_lfredag", 
+            "2026-04-05": "h_pdagen", "2026-04-06": "h_apask", "2026-04-30": "h_valborg", 
+            "2026-05-01": "h_fmaj", "2026-05-14": "h_kristi", "2026-06-06": "h_national",
+            "2026-06-19": "h_midsommara", "2026-06-20": "h_midsommar", "2026-10-31": "h_allahelgon",
+            "2026-12-24": "h_jula", "2026-12-25": "h_juldagen", "2026-12-26": "h_ajul", "2026-12-31": "h_nyara"
         };
-        const redDays = ["2026-04-03", "2026-04-05", "2026-04-06", "2026-05-01"];
+        const redDays = [
+            "2026-01-01", "2026-01-06", "2026-04-03", "2026-04-05", "2026-04-06", "2026-05-01", 
+            "2026-05-14", "2026-06-06", "2026-06-19", "2026-06-20", "2026-10-31", "2026-12-24", 
+            "2026-12-25", "2026-12-26", "2026-12-31"
+        ];
         
         let currentLang = localStorage.getItem('avail_lang') || 'sv';
         let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
@@ -243,13 +255,20 @@
 
         const tryInitFirebase = async () => {
             let config = null;
+            let useEnvToken = false;
+
             try {
-                if (manualFirebaseConfig) {
-                    config = manualFirebaseConfig;
-                } else if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                // Prioritera system-config i preview, annars manual
+                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
                     config = JSON.parse(__firebase_config);
+                    useEnvToken = true;
+                } else if (manualFirebaseConfig) {
+                    config = manualFirebaseConfig;
+                    useEnvToken = false; // Använd aldrig env-token med manuell config
                 }
             } catch (e) {}
+
+            render();
 
             if (config) {
                 try {
@@ -268,7 +287,9 @@
                         }
                     });
 
-                    const initialToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+                    // FIX: Använd endast __initial_auth_token om vi använder systemets miljö-config
+                    const initialToken = (useEnvToken && typeof __initial_auth_token !== 'undefined') ? __initial_auth_token : null;
+                    
                     if (initialToken) {
                         await signInWithCustomToken(auth, initialToken);
                     } else {
@@ -282,7 +303,6 @@
                 updateSyncStatus('offline');
                 const label = document.getElementById('storage-type-label');
                 if (label) label.innerText = t('storageLocal');
-                render();
             }
         };
 
