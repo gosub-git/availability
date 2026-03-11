@@ -1,0 +1,519 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="sv"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Availability Calendar - Veckoöversikt&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;display=swap');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body { font-family: 'Inter', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.day-card {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.1s ease-in-out;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>user-select: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-width: 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.status-0 { border-left: 3px solid #e5e7eb; background-color: #ffffff !important; }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.status-1 { border-left: 3px solid #10b981; background-color: #f0fdf4 !important; }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.status-2 { border-left: 3px solid #ef4444; background-color: #fef2f2 !important; }<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.ghost-card {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f1f5f9;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px dashed #e2e8f0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0.3;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.weekend-card {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f8fafc !important;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0.6;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-left-width: 1px !important;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>filter: grayscale(0.3);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.weekend-card:hover { opacity: 0.9; }</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.red-day-text { color: #dc2626 !important; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.calendar-row {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>grid-template-columns: repeat(5, 1fr) 0.6fr 0.6fr;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 0.4rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media (max-width: 640px) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.calendar-row {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>grid-template-columns: repeat(7, 1fr);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>gap: 0.2rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.day-card, .ghost-card {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>padding: 0.4rem !important;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>height: 4.5rem !important;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>border-radius: 0.5rem !important;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.status-text { display: none; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.status-dot { display: block !important; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media print {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.no-print { display: none !important; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.day-card { box-shadow: none !important; border: 1px solid #ddd !important; transform: none !important; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.calendar-row { grid-template-columns: repeat(5, 1fr) 0.6fr 0.6fr !important; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.sync-indicator {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: inline-flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 0.4rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0.2rem 0.6rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 9999px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.7rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.lang-btn.active {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #1e293b;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-color: #1e293b;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-slate-50 min-h-screen p-2 md:p-8"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="max-w-6xl mx-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Header &amp; Settings --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="mb-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 no-print"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center gap-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h1 id="ui-title" class="text-xl md:text-2xl font-black tracking-tight text-slate-900"&gt;Min Tillgänglighet&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div id="sync-status" class="sync-indicator bg-slate-100 text-slate-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="w-1.5 h-1.5 rounded-full bg-slate-300"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span id="ui-sync-text"&gt;Ansluter...&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p id="ui-subtitle" class="text-slate-500 text-[10px] font-medium uppercase tracking-wider mt-1"&gt;Statiska veckovyer • Molnsynk&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex flex-wrap items-center gap-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Language Selector --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex bg-slate-100 p-1 rounded-xl mr-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button onclick="setLanguage('sv')" id="lang-sv" class="lang-btn px-3 py-1 text-[10px] font-bold rounded-lg transition-all border border-transparent"&gt;SV&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button onclick="setLanguage('en')" id="lang-en" class="lang-btn px-3 py-1 text-[10px] font-bold rounded-lg transition-all border border-transparent"&gt;EN&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="date" id="start-date" class="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-700 outline-none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="text-slate-300"&gt;→&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="date" id="end-date" class="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-700 outline-none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button id="btn-image" class="px-3 py-1.5 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-700 transition-all flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>🖼️ &lt;span id="ui-btn-img"&gt;Bild&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button onclick="window.print()" class="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition-all"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>🖨️ &lt;span id="ui-btn-pdf"&gt;PDF&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Legend --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="flex gap-3 mb-4 no-print overflow-x-auto pb-1 text-[9px] font-bold uppercase tracking-wider text-slate-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex items-center gap-1.5 px-2 py-1 bg-white border rounded-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="w-1.5 h-1.5 rounded-full bg-emerald-500"&gt;&lt;/div&gt; &lt;span id="ui-legend-avail"&gt;Tillgänglig&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex items-center gap-1.5 px-2 py-1 bg-white border rounded-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="w-1.5 h-1.5 rounded-full bg-red-500"&gt;&lt;/div&gt; &lt;span id="ui-legend-busy"&gt;Upptagen&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button onclick="window.clearAllData()" class="ml-auto hover:text-red-500 transition-colors uppercase"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span id="ui-clear-all"&gt;Rensa allt&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Calendar Area --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="calendar-capture-area" class="bg-white p-3 md:p-8 rounded-3xl shadow-xl border border-slate-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="calendar-content" class="space-y-8"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="mt-10 pt-4 border-t border-slate-100 flex justify-between items-center text-[9px] text-slate-400 font-medium uppercase tracking-widest"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span id="storage-type-label"&gt;Lokal lagring&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span id="export-timestamp"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;canvas id="export-canvas" style="display:none;"&gt;&lt;/canvas&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="module"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const manualFirebaseConfig = null;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const STORAGE_KEY = 'avail_storage_v9_multilang';</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const translations = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>sv: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>title: "Min Tillgänglighet",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>subtitle: "Statiska veckovyer • Molnsynk",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>syncing: "Ansluter...",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>saving: "Sparar...",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>synced: "Synkad",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>offline: "Lokal",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>available: "TILLGÄNGLIG",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>busy: "UPPTAGEN",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>week: "V.",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>weekFull: "Vecka",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>clearConfirm: "Vill du rensa alla dina markeringar?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>storageLocal: "Lokal lagring",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>storageCloud: "Molnsynkad",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>btnImg: "Bild",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>btnPdf: "PDF",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>clearAll: "Rensa allt",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>legendAvail: "Tillgänglig",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>legendBusy: "Upptagen",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>updated: "Uppdaterad",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_lfredag: "Långfredag",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_pdagen: "Påskdagen",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_apask: "Annandag påsk",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_valborg: "Valborg",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_fmaj: "Första maj",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_kristi: "Kristi himmelsfärd",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>days: ["Sön", "Mån", "Tis", "Ons", "Tor", "Fre", "Lör"],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>months: ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>en: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>title: "My Availability",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>subtitle: "Static week views • Cloud sync",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>syncing: "Connecting...",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>saving: "Saving...",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>synced: "Synced",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>offline: "Local",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>available: "AVAILABLE",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>busy: "BUSY",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>week: "W.",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>weekFull: "Week",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>clearConfirm: "Do you want to clear all your markings?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>storageLocal: "Local storage",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>storageCloud: "Cloud synced",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>btnImg: "Image",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>btnPdf: "PDF",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>clearAll: "Clear all",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>legendAvail: "Available",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>legendBusy: "Busy",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>updated: "Updated",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_lfredag: "Good Friday",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_pdagen: "Easter Sunday",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_apask: "Easter Monday",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_valborg: "Walpurgis",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_fmaj: "May Day",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>h_kristi: "Ascension Day",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const holidays = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"2026-04-03": "h_lfredag", "2026-04-05": "h_pdagen", "2026-04-06": "h_apask",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"2026-04-30": "h_valborg", "2026-05-01": "h_fmaj", "2026-05-14": "h_kristi"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const redDays = ["2026-04-03", "2026-04-05", "2026-04-06", "2026-05-01"];</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentLang = localStorage.getItem('avail_lang') || 'sv';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentUser = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let db = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentStart = "2026-03-16";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentEnd = "2026-04-30";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function t(key) { return translations[currentLang][key] || key; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.setLanguage = (lang) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentLang = lang;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>localStorage.setItem('avail_lang', lang);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>updateUIStrings();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>render();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateUIStrings() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('ui-title').innerText = t('title');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('ui-subtitle').innerText = t('subtitle');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('ui-btn-img').innerText = t('btnImg');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('ui-btn-pdf').innerText = t('btnPdf');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('ui-legend-avail').innerText = t('legendAvail');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('ui-legend-busy').innerText = t('legendBusy');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('ui-clear-all').innerText = t('clearAll');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.lang-btn').forEach(btn =&gt; btn.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById(`lang-${currentLang}`).classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function parseLocalDate(dateStr) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [y, m, d] = dateStr.split('-').map(Number);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return new Date(y, m - 1, d);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tryInitFirebase = async () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let config = null;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const initialToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (typeof __firebase_config !== 'undefined') {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>config = JSON.parse(__firebase_config);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else if (manualFirebaseConfig) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>config = manualFirebaseConfig;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (e) {}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (config) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const app = initializeApp(config);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const auth = getAuth(app);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>db = getFirestore(app);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>updateSyncStatus('connecting');</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>onAuthStateChanged(auth, (user) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>currentUser = user;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (user) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>updateSyncStatus('synced');</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>document.getElementById('storage-type-label').innerText = t('storageCloud');</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>listenForData();</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (initialToken) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>await signInWithCustomToken(auth, initialToken);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>await signInAnonymously(auth);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>updateSyncStatus('offline');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('storage-type-label').innerText = t('storageLocal');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>render();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function listenForData() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const docRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'availability', 'current');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>onSnapshot(docRef, (docSnap) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (docSnap.exists()) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>state = docSnap.data().selections || {};</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>render();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, (err) =&gt; { console.error(err); });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function saveSelection() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>localStorage.setItem(STORAGE_KEY, JSON.stringify(state));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (db &amp;&amp; currentUser) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>updateSyncStatus('saving');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const docRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'availability', 'current');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>await setDoc(docRef, { selections: state }, { merge: true });</p>
+<p class="p1"><span class="Apple-converted-space">                </span>updateSyncStatus('synced');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateSyncStatus(type) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const statusEl = document.getElementById('sync-status');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const statusText = document.getElementById('ui-sync-text');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!statusEl) return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>switch(type) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>case 'connecting':<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>statusEl.className = "sync-indicator bg-slate-100 text-slate-500";</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>statusText.innerText = t('syncing');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>break;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>case 'saving':<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>statusEl.className = "sync-indicator bg-amber-50 text-amber-600";</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>statusText.innerText = t('saving');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>break;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>case 'synced':<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>statusEl.className = "sync-indicator bg-emerald-50 text-emerald-600";</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>statusText.innerText = t('synced');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>break;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>case 'offline':<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>statusEl.className = "sync-indicator bg-slate-100 text-slate-500";</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>statusText.innerText = t('offline');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>break;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.clearAllData = async function() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if(confirm(t('clearConfirm'))) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>state = {};</p>
+<p class="p1"><span class="Apple-converted-space">                </span>localStorage.removeItem(STORAGE_KEY);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>await saveSelection();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>render();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.exportAsImage = function() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const canvas = document.getElementById('export-canvas');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const ctx = canvas.getContext('2d');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const width = 1200;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const weeks = getGroupedWeeks();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const height = 180 + (weeks.length * 130);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const scale = 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>canvas.width = width * scale; canvas.height = height * scale;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.scale(scale, scale);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, width, height);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.fillStyle = "#0f172a"; ctx.font = "bold 28px Inter"; ctx.fillText(t('title').toUpperCase(), 50, 60);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>ctx.font = "500 14px Inter"; ctx.fillStyle = "#94a3b8"; ctx.fillText(`${currentStart} to ${currentEnd}`, 50, 85);</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>let y = 160;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>weeks.forEach((week) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const weekNum = getWeekNumber(week[0].date);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>ctx.fillStyle = "#cbd5e1"; ctx.font = "bold 10px Inter"; ctx.fillText(`${t('weekFull').toUpperCase()} ${weekNum}`, 50, y - 15);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>for (let col = 1; col &lt;= 7; col++) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const xPos = 50 + (col - 1) * 160;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const isWeekend = currentLang === 'sv' ? col &gt;= 6 : (col === 1 || col === 7);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const cardW = isWeekend ? 90 : 150;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const day = week.find(d =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const dNum = d.date.getDay() === 0 ? 7 : d.date.getDay();</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>return dNum === col;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (day) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ctx.fillStyle = day.status === 1 ? "#f0fdf4" : day.status === 2 ? "#fef2f2" : (day.isWeekend ? "#f8fafc" : "#ffffff");</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ctx.beginPath(); ctx.roundRect(xPos, y, cardW, 100, 12); ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ctx.strokeStyle = day.status === 1 ? "#10b981" : day.status === 2 ? "#ef4444" : "#e5e7eb";</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ctx.lineWidth = day.status &gt; 0 ? 2 : 1; ctx.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ctx.fillStyle = "#94a3b8"; ctx.font = "bold 9px Inter";<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ctx.fillText(t('days')[day.dayOfWeek].toUpperCase(), xPos + 12, y + 20);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ctx.fillStyle = day.isHoliday ? "#dc2626" : "#1e293b"; ctx.font = day.isWeekend ? "bold 14px Inter" : "bold 20px Inter";</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ctx.fillText(`${day.date.getDate()} ${t('months')[day.date.getMonth()]}`, xPos + 12, y + 45);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>if (day.status === 1) { ctx.fillStyle = "#059669"; ctx.font = "bold 8px Inter"; ctx.fillText(t('available'), xPos + 12, y + 80); }</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>if (day.status === 2) { ctx.fillStyle = "#dc2626"; ctx.font = "bold 8px Inter"; ctx.fillText(t('busy'), xPos + 12, y + 80); }</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ctx.fillStyle = "#f8fafc";</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ctx.beginPath(); ctx.roundRect(xPos, y, cardW, 100, 12); ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ctx.strokeStyle = "#f1f5f9"; ctx.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>y += 130;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const link = document.createElement('a');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>link.download = `Availability_Export.png`; link.href = canvas.toDataURL('image/png'); link.click();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function getGroupedWeeks() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const start = parseLocalDate(currentStart);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const end = parseLocalDate(currentEnd);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isNaN(start.getTime()) || isNaN(end.getTime()) || start &gt; end) return [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let current = new Date(start);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const weeks = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let activeWeek = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>while (current &lt;= end) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const y = current.getFullYear();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const m = String(current.getMonth() + 1).padStart(2, '0');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const d = String(current.getDate()).padStart(2, '0');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const dateKey = `${y}-${m}-${d}`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>activeWeek.push({</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>date: new Date(current), key: dateKey, dayOfWeek: current.getDay(),</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>isHoliday: redDays.includes(dateKey) || current.getDay() === 0,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>isWeekend: current.getDay() === 0 || current.getDay() === 6,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>holidayName: holidays[dateKey], status: state[dateKey] || 0</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (current.getDay() === 0 || current.getTime() &gt;= end.getTime()) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>weeks.push([...activeWeek]);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>activeWeek = [];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>current.setDate(current.getDate() + 1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return weeks;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function render() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const content = document.getElementById('calendar-content');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!content) return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>content.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('export-timestamp').innerText = `${t('updated')}: ${new Date().toLocaleTimeString(currentLang === 'sv' ? 'sv-SE' : 'en-US')}`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const weeks = getGroupedWeeks();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>weeks.forEach((week) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const weekNum = getWeekNumber(week[0].date);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const wrapper = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>wrapper.innerHTML = `&lt;div class="flex items-center gap-2 mb-2"&gt;&lt;span class="text-[9px] font-black text-slate-300 uppercase tracking-widest"&gt;${t('week')}${weekNum}&lt;/span&gt;&lt;div class="h-px bg-slate-100 flex-grow"&gt;&lt;/div&gt;&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const grid = document.createElement('div');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>grid.className = "calendar-row";</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>for (let col = 1; col &lt;= 7; col++) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const day = week.find(d =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const dayNum = d.date.getDay() === 0 ? 7 : d.date.getDay();</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>return dayNum === col;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const card = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>card.style.gridColumnStart = col;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (day) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>card.className = `day-card p-2 md:p-3 rounded-xl border flex flex-col justify-between h-20 md:h-24 status-${day.status} ${day.isWeekend ? 'weekend-card' : 'shadow-sm'}`;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>card.onclick = async () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>state[day.key] = (day.status + 1) % 3;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>await saveSelection();</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>render();</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>card.innerHTML = `&lt;div class="flex justify-between items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="leading-none overflow-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="text-[7px] md:text-[8px] font-bold text-slate-400 uppercase mb-0.5"&gt;${t('days')[day.dayOfWeek]}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="${day.isWeekend ? 'text-xs md:text-sm' : 'text-sm md:text-lg'} font-black ${day.isHoliday ? 'red-day-text' : 'text-slate-800'} whitespace-nowrap"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>${day.date.getDate()} &lt;span class="text-[7px] md:text-[8px] font-medium opacity-40"&gt;${t('months')[day.date.getMonth()].toUpperCase()}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="mt-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>${day.holidayName ? `&lt;div class="text-[6px] md:text-[7px] font-black text-red-500 uppercase truncate"&gt;${t(day.holidayName)}&lt;/div&gt;` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="status-text text-[7px] md:text-[9px] font-black ${day.status === 1 ? 'text-emerald-600' : day.status === 2 ? 'text-red-600' : 'text-slate-200'}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>${day.status === 1 ? t('available') : day.status === 2 ? t('busy') : ''}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>card.className = "ghost-card p-2 md:p-3 rounded-xl h-20 md:h-24";</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>grid.appendChild(card);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>wrapper.appendChild(grid);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>content.appendChild(wrapper);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function getWeekNumber(d) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return Math.ceil((((d - new Date(Date.UTC(d.getUTCFullYear(), 0, 1))) / 86400000) + 1) / 7);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const startInput = document.getElementById('start-date');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const endInput = document.getElementById('end-date');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const imgBtn = document.getElementById('btn-image');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>startInput.value = currentStart;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>endInput.value = currentEnd;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>startInput.oninput = (e) =&gt; { currentStart = e.target.value; render(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>endInput.oninput = (e) =&gt; { currentEnd = e.target.value; render(); };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>imgBtn.onclick = () =&gt; exportAsImage();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>updateUIStrings();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tryInitFirebase();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
